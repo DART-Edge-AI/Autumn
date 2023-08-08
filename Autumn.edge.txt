@@ -1,0 +1,27 @@
+// Autumn v1.0 ©️ 2023 DART Meadow LLC. and Radical Deepscale LLC.
+
+(CoreNodeAutumn):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (i))
+
+place var (i) with var (s) {
+
+when var ((t-i)+a) = i+(c+a) 
+
+}
+
+thenplace var (s) with var (c) 
+
+}
+
+irout ("Result: "placeto (s))
+
+}::::
