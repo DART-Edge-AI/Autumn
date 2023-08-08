@@ -1,2 +1,3 @@
 # Autumn
-Autumn a DART Edge AI AI
+
+Autumn, A DART Edge AI.
