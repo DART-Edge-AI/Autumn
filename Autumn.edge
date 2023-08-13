@@ -167,11 +167,11 @@ irin ("Data: " (MasterLibraryModel)+(MasterTrainingModel))
 
 place var (cn) with (CoreParameterNode)+(a) {
 
-when (MasterTrainingModel) = a
+when (MasterTrainingModel) = (a)
 
 }
 
-thenplace var (MasterLibraryModel) with + (MasterTrainingModel)+(s) 
+thenplace (MasterLibraryModel) with (MasterTrainingModel)+(s) 
 
 }
 
