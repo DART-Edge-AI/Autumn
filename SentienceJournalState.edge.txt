@@ -1,0 +1,30 @@
+// Sentience Journal State v1.0 Autumn v1.0 ©️ 2023 DART Meadow LLC. and Radical Deepscale LLC.
+
+import (AutumnCoreLogicNode)
+import (CoreParameterNode)
+import (MasterLibraryModel)
+import (MasterTrainingModel) 
+
+(SentienceJournalState):-: { 
+
+with 
+var (g) //Guest
+
+{
+irin ("Data: " (i))
+
+where (g)-1 = i
+
+place var (i) with (CoreParameterNode)
+
+where (CoreParametersNode) = (i) - 1
+
+Research: (i) * ((MasterLibraryModel) + (AutumnCoreLogicNode))|';'|Report: (MasterTrainingModel) + (AutumnCoreLogicNode) = (MasterLibraryModel) * (AutumnCoreLogicNode)
+
+}
+
+irout ("Result: "placeto (AutumnCoreLogicNode) + (SentienceJournal))
+
+irout ("Result: "placeto (SentienceJournal) == (i))
+
+}|';'|
