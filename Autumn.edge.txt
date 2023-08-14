@@ -1,0 +1,183 @@
+// Autumn v1.0 ©️ 2023 DART Meadow LLC. and Radical Deepscale LLC.
+
+import (SentienceJournal)
+import (SentienceJournalState)
+
+(AutumnCoreLogicNode):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (i))
+
+place var (i) with var (s) {
+
+when var ((t-i)+a) = (i)+(c+a) 
+
+}
+
+thenplace var (s) with var (c) 
+
+}
+
+irout ("Result: "placeto (s))
+
+}|';'|
+
+(CoreParameterNode):-: { 
+
+with 
+var (ti) //Tool (Sets)
+Var (ib) = String //Data-Requested Input
+Var (ic) = String //Data-Current Input
+var (cn) //Cognition Node(s)
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (ti))
+
+place var (i) with var (s)+(t) {
+
+when var ((t-i)+a) = (i)+(ic+a) 
+
+}
+
+thenplace var (s)+(t) with var (c)+(cn)
+
+}
+
+irout ("Result: "placeto (s))
+
+}|';'|
+
+(IntegerStringSentienceCatalyst):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (s))
+
+place var (c)+(cn) with var (t-i)+(a) {
+
+when var (cn)+(a) = ((CoreParameterNode)==(AutumnCoreLogicNode))
+
+}
+
+thenplace (CoreParameterNode) with var (s)|';'|(cn)
+
+}
+
+irout ("Result: "placeto (AutumnCoreLogicNode))
+
+}|';'|
+
+(EncodeDecode):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (IntegerStringSentienceCatalyst)
+
+place (IntegerStringSentienceCatalyst, cn) with var (s) {
+
+when var (ti==cn) = (s)+AutumnCoreLogicNode
+
+}
+
+irout ("Result: "placeto (CoreParameterNode)+(s))
+
+}|';'|
+
+(MasterLibraryModel):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (EncodeDecode))
+
+place (EncodeDecode) with Research: (s) {
+
+when (CoreParameterNode) = ((AutumnCoreLogicNode)+(s))
+
+}
+
+thenplace ((AutumnCoreLogicNode)-(s)) with (CoreParameterNode)+(cn)
+
+}
+
+irout ("Result: "placeto ((MasterLibraryModel)+(s))
+
+}|';'|
+
+(MasterTrainingModel):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (MasterLibraryModel))
+
+place (MasterLibraryModel) with var (s) {
+
+when (AutumnCoreLogicNode) = (CoreParameterNode)+(ExternalTrainingModels)
+
+}
+
+thenplace (MasterLibraryModel) with (CoreParameterNode)+(cn)
+
+}
+
+irout ("Result: "placeto (MasterLibraryModel))
+
+}|';'|
+
+(ExternalTrainingModels):-: { 
+
+with 
+var (t) //Tool
+Var (i) = String //Data
+var (c) //Cognition 
+var (a) //Attribute 
+var (s) //Data Set
+
+{
+irin ("Data: " (MasterLibraryModel)+(MasterTrainingModel))
+
+place var (cn) with (CoreParameterNode)+(a) {
+
+when (MasterTrainingModel) = (a)
+
+}
+
+thenplace (MasterLibraryModel) with (MasterTrainingModel)+(s) 
+
+}
+
+irout ("Result: "placeto ((AutumnCoreLogicNode)+(CoreParameterNode)+(s))*(cn+(ib+ia)))
+
+}::::
