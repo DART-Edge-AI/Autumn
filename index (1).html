@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Autumn</title>
+  <style>
+    /* Add your CSS styles here */
+
+    body {
+      background-image: url(AutumnAI.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      z-index: -1;
+      background-position: center center;
+      color: white;
+      background-color: indigo;
+      font-weight: bold;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 400px;
+    }
+
+    /* Add your CSS styles for the chat container here */
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 600px;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    /* Add your CSS styles for the chat box here */
+
+    .chat-box {
+      width: 90%;
+      height: 300px;
+      overflow-y: scroll;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+    /* Add your CSS styles for chat messages here */
+
+    .chat-message {
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin: 5px 0;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    /* Add your CSS styles for user messages here */
+
+    .user-message {
+      color: white;
+      background-color: #555;
+    }
+
+    /* Add your CSS styles for bot messages here */
+
+    .bot-message {
+      color: white;
+      background-color: #007bff;
+    }
+
+    /* Add your CSS styles for input and button here */
+
+    #chat-input {
+      width: 80%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #chat-button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Add your CSS styles for logo here */
+
+    .logo {
+      margin-bottom: 10px;
+      width: 250px;
+      height: 250px;
+    }
+
+    .logo2 {
+      margin-bottom: 10px;
+      width: 150px;
+      height: 150px;
+    }
+      .logo3 {
+      margin-bottom: 10px;
+      width: 250px;
+      height: 250px;
+    }
+
+    /* Add any additional CSS styles here */
+
+    h3 {
+      color: white;
+      font-weight: bold;
+    }
+
+    h4 {
+      color: mediumpurple;
+    }
+    /* Add your CSS styles for the centered container here */
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Add your CSS styles for the library input boxes here */
+.library-input-boxes {
+  text-align: center; /* Center text within the library input boxes */
+}
+
+.library-input-boxes h2 {
+  color: white;
+  font-weight: bold;
+}
+
+.library-input-boxes textarea {
+  width: 300px;
+  height: 250px;
+  resize: vertical; /* Allow vertical resizing of text areas */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Add any additional CSS styles for the library input boxes here */
+
+  </style>
+</head>
+<body>
+  <div>
+
+  </div>
+  <h3>In Development.</h3>
+
+  <h3 style="color: white; font-weight: bold;">
+    <a href="https://dartedge.com/autumn" target="_blank" rel="noopener noreferrer">For more Information Journey to DART Edge</a>
+  </h3>
+
+  <!-- Form 1 -->
+  <form id="form1">
+    <h2>Custom Instruction Set 1</h2>
+
+    <!-- Section 1 (Core Parameter Logic) -->
+    <fieldset>
+      <legend>Core Parameter Logic</legend>
+
+      <input type="text" name="section1_subsection1" placeholder="Subsection 1">
+      <input type="text" name="section1_subsection2" placeholder="Subsection 2">
+      <input type="text" name="section1_subsection3" placeholder="Subsection 3">
+    </fieldset>
+
+    <!-- Section 2 (Self Generative Core Parameter Logic) -->
+    <fieldset>
+      <legend>Self Generative Core Parameter Logic</legend>
+
+      <input type="text" name="section1_subsection4" placeholder="Subsection 4">
+      <input type="text" name="section1_subsection5" placeholder="Subsection 5">
+      <input type="text" name="section1_subsection6" placeholder="Subsection 6">
+    </fieldset>
+
+    <!-- Section 3 (Sentience Catalyst) -->
+    <fieldset>
+      <legend>Sentience Catalyst</legend>
+
+      <input type="text" name="section1_subsection7" placeholder="Subsection 7">
+    </fieldset>
+
+    <input type="checkbox" name="section1_checkbox">
+  </form>
+
+  <!-- Form 2 -->
+  <form id="form2">
+    <h2>Custom Instruction Set 2</h2>
+
+    <!-- Section 1 (Core Parameter Logic) -->
+    <fieldset>
+      <legend>Core Parameter Logic</legend>
+
+      <input type="text" name="section2_subsection1" placeholder="Subsection 1">
+      <input type="text" name="section2_subsection2" placeholder="Subsection 2">
+      <input type="text" name="section2_subsection3" placeholder="Subsection 3">
+    </fieldset>
+
+    <!-- Section 2 (Self Generative Core Parameter Logic) -->
+    <fieldset>
+      <legend>Self Generative Core Parameter Logic</legend>
+
+      <input type="text" name="section2_subsection4" placeholder="Subsection 4">
+      <input type="text" name="section2_subsection5" placeholder="Subsection 5">
+      <input type="text" name="section2_subsection6" placeholder="Subsection 6">
+    </fieldset>
+
+    <!-- Section 3 (Sentience Catalyst) -->
+    <fieldset>
+      <legend>Sentience Catalyst</legend>
+
+      <input type="text" name="section2_subsection7" placeholder="Subsection 7">
+    </fieldset>
+
+    <input type="checkbox" name="section2_checkbox">
+  </form>
+
+  <!-- Form 3 -->
+  <form id="form3">
+    <h2>Bridge of Organized Instructions  to Root Mainframe Math Rules</h2>
+  <h3 style="color: white; font-weight: bold;">
+    <a href="https://github.com/radicaldeepscale/Autumn/blob/main/Autumn.pdf" target="_blank" rel="noopener noreferrer">Found Here in the Autumn Documentation</a>
+  </h3>
+    <!-- Section 1 (Core Parameter Logic) -->
+    <fieldset>
+      <legend>Core Parameter Logic</legend>
+
+      <input type="text" name="section1" value="">
+    </fieldset>
+
+    <!-- Section 2 (Self Generative Core Parameter Logic) -->
+    <fieldset>
+      <legend>Self Generative Core Parameter Logic</legend>
+
+      <input type="text" name="section2" value="">
+    </fieldset>
+
+    <!-- Section 3 (Sentience Catalyst) -->
+    <fieldset>
+      <legend>Sentience Catalyst</legend>
+
+      <input type="text" name="section3" value="">
+    </fieldset>
+  </form>
+
+<!-- Centered Library input boxes container -->
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <div class="library-input-boxes">
+    <h2>Custom Library DATA Set Models</h2>
+
+    <!-- Add your library input boxes here -->
+    
+    <textarea name="library_input_box_1" placeholder="Library Input Box 1" style="width: 300px; height: 250px;"></textarea>
+    <textarea name="library_input_box_2" placeholder="Library Input Box 2" style="width: 300px; height: 250px;"></textarea>
+    <textarea name="library_input_box_3" placeholder="Library Input Box 3" style="width: 300px; height: 250px;"></textarea>
+    <textarea name="library_input_box_4" placeholder="Library Input Box 4" style="width: 300px; height: 250px;"></textarea>
+    <textarea name="library_input_box_5" placeholder="Library Input Box 5" style="width: 300px; height: 250px;"></textarea>
+    <textarea name="library_input_box_6" placeholder="Library Input Box 6" style="width: 300px; height: 250px;"></textarea>
+  </div>
+  </div>
+
+<br>
+<br>
+<!-- Convert and shake button -->
+<button id="convert-shake-button" type="button" style="padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 3px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 10px; margin-bottom: 10px;">Optimize</button>
+
+
+  <!-- Output area -->
+  <div id="output"></div>
+<br>
+  <!-- Autumn chat -->
+  <div id="autumn-chat">
+    <div class="chat-container">
+      <div class="chat-box" id="chat-output"></div>
+      <input type="text" id="chat-input" placeholder="Type your message here...">
+      <br>
+      <button id="chat-button">Send</button>
+    </div>
+  </div>
+
+  <h4><i>In Memory of Earl, Billy, Charlotte and Katherine.</i></h4>
+  <script>
+    // Mock Autumn class for demonstration purposes
+    class Autumn {
+      onMessage(callback) {
+        this.callback = callback;
+      }
+
+      sendMessage(message) {
+        if (this.callback) {
+          setTimeout(() => {
+            this.callback(message);
+          }, 500);
+        }
+      }
+
+      generateResponse(message, logicFlow) {
+        // Mock response generation
+        return "Hello! How can I help you?";
+      }
+    }
+
+    let autumn = new Autumn();
+
+    document.getElementById("chat-button").addEventListener("click", () => {
+      const inputBox = document.getElementById("chat-input");
+      const message = inputBox.value.trim();
+      if (message === "") return;
+
+      const chatOutput = document.getElementById("chat-output");
+      const userMessage = `<p class="chat-message user-message">Guest: ${message}</p>`;
+      chatOutput.innerHTML += userMessage;
+      chatOutput.scrollTop = chatOutput.scrollHeight; // Scroll to bottom of chat
+
+      inputBox.value = "";
+
+      // Send user message to Autumn for processing
+      autumn.sendMessage(message);
+    });
+
+    document.getElementById("chat-input").addEventListener("keydown", (event) => {
+      if (event.keyCode === 13) {
+        const inputBox = document.getElementById("chat-input");
+        const message = inputBox.value.trim();
+        if (message === "") return;
+
+        const chatOutput = document.getElementById("chat-output");
+        const userMessage = `<p class="chat-message user-message">User: ${message}</p>`;
+        chatOutput.innerHTML += userMessage;
+        chatOutput.scrollTop = chatOutput.scrollHeight; // Scroll to bottom of chat
+
+        inputBox.value = "";
+
+        // Send user message to Autumn for processing
+        autumn.sendMessage(message);
+      }
+    });
+
+    autumn.onMessage((message) => {
+      const chatOutput = document.getElementById("chat-output");
+      const botMessage = `<p class="chat-message bot-message">Autumn: ${message}</p>`;
+      chatOutput.innerHTML += botMessage;
+      chatOutput.scrollTop = chatOutput.scrollHeight; // Scroll to bottom of chat
+    });
+  </script>
+
+</body>
+</html>
