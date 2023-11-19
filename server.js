@@ -4,16 +4,10 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectUri = process.env.REDIRECT_URI;
 
-
 const express = require('express');
 const axios = require('axios');
 const app = express();
 const port = 3000; // Choose a port for your server
-
-// Replace these values with your GitHub OAuth App details
-const clientId = 'radicaldeepscale';
-const clientSecret = '4c9669399c1cddf72857975aba1900e0a76af102';
-const redirectUri = 'http://localhost:3000/auth/callback'; // Should match your GitHub OAuth App settings
 
 // Redirect to GitHub for authentication
 app.get('/auth', (req, res) => {
