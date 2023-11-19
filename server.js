@@ -1,3 +1,10 @@
+require('dotenv').config();
+
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const redirectUri = process.env.REDIRECT_URI;
+
+
 const express = require('express');
 const axios = require('axios');
 const app = express();
