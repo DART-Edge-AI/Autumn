@@ -4,7 +4,7 @@
 
 ![Core AI Model](https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/Core%20AI%20Model.png)
 
-![AutumnMindMap](https://github.com/radicaldeepscale/Autumn/assets/59750726/11fb04b4-d343-40c5-b232-11339f3c82f4)
+![AutumnMindMap](https://github.com/radicaldeepscale/Autumn/assets/59750726/708ef629-c2ae-47e3-86c6-6f7be3cf39b1)
 
 ![Is The Power Off?l](https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/AutumnJournal.png)
 
