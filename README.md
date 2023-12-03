@@ -4,6 +4,8 @@
 
 ![Core AI Model](https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/Core%20AI%20Model.png)
 
+![Generation MindMap]([https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/Core%20AI%20Model.png](https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/Project%20202312031125.png))
+
 ![Is The Power Off?l](https://raw.githubusercontent.com/radicaldeepscale/Autumn/main/AutumnJournal.png)
 
 Autumn, A DART Edge AI.
