@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arc Lake and 7 Tools</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            //background-color: indigo;
+            color: white;
+        }
+             .centered-div {
+            
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+ 
+   
+        canvas {
+            display: block;
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 300px;
+        }
+        .controls button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+  
+   
+      
+    
+  
+
+
+  
+<canvas id="gameCanvas" width="875" height="1200"></canvas>
+    <div class="centered-div">
+   <h1>
+      Arc Lake and 7 Tools
+    </h1></div>
+ <div class="controls">
+   <button id="up" data-key="ArrowUp">↑</button>
+   <button id="left" data-key="ArrowLeft">←</button>
+   <button id="down" data-key="ArrowDown">↓</button>
+   <button id="right" data-key="ArrowRight">→</button>
+   <button id="w" data-key="w">W</button>
+   <button id="a" data-key="a">A</button>
+   <button id="s" data-key="s">S</button>
+   <button id="d" data-key="d">D</button>
+ </div>
+     
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight * 0.8; // Adjust height to make room for controls
+
+        const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        skyGradient.addColorStop(0, '#87CEEB'); // Sky blue
+        skyGradient.addColorStop(1, '#FFFFFF'); // White
+
+        const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+        groundGradient.addColorStop(0, '#FFD700'); // Golden
+        groundGradient.addColorStop(1, '#FFA500'); // Orange
+
+        class Character {
+            constructor(x, y, width, height, color1, color2) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color1 = color1;
+                this.color2 = color2;
+                this.isSelected = false;
+                this.isRunning = false;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(this.x, this.y, this.width / 4, this.x, this.y, this.width / 2);
+                gradient.addColorStop(0, this.color1);
+                gradient.addColorStop(1, this.color2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            move(dx, dy) {
+                this.x += dx;
+                this.y += dy;
+            }
+
+            jump() {
+                // Simple jump logic
+                this.y -= 20;
+                setTimeout(() => {
+                    this.y += 20;
+                }, 300);
+            }
+
+            run() {
+                this.isRunning = true;
+            }
+
+            stop() {
+                this.isRunning = false;
+            }
+
+            update() {
+                if (this.isRunning) {
+                    this.move(5, 0); // Constant running speed
+                }
+            }
+        }
+
+        class Bird {
+            constructor(x, y, width, height, color1, color2) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color1 = color1;
+                this.color2 = color2;
+                this.speed = Math.random() * 2 + 1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.width / 2, this.y + this.height);
+                ctx.lineTo(this.x - this.width / 2, this.y + this.height);
+                ctx.closePath();
+                const gradient = ctx.createLinearGradient(this.x - this.width / 2, this.y, this.x + this.width / 2, this.y + this.height);
+                gradient.addColorStop(0, this.color1);
+                gradient.addColorStop(1, this.color2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > canvas.width) {
+                    this.x = -this.width;
+                    this.y = Math.random() * canvas.height / 2;
+                }
+                this.draw();
+            }
+        }
+
+        const character1 = new Character(50, canvas.height - 150, 50, 50, '#FF6347', '#FFD700'); // Tomato to Gold
+        const character2 = new Character(150, canvas.height - 150, 50, 50, '#4682B4', '#7FFFD4'); // Steel blue to Aquamarine
+        let activeCharacter = character1;
+
+        const obstacles = [
+            { x: 300, y: canvas.height - 200, width: 50, height: 150, color: '#8B0000' }, // Dark red
+            { x: 600, y: canvas.height - 250, width: 50, height: 200, color: '#2E8B57' }, // Sea green
+        ];
+
+        const birds = [];
+        for (let i = 0; i < 5; i++) {
+            birds.push(new Bird(Math.random() * canvas.width, Math.random() * canvas.height / 2, 30, 20, '#0000FF', '#ADD8E6')); // Blue gradient
+        }
+
+        function drawBackground() {
+            ctx.fillStyle = skyGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+            
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+        }
+
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                ctx.fillStyle = obstacle.color;
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            character1.draw();
+            character2.draw();
+            drawObstacles();
+            birds.forEach(bird => bird.update());
+        }
+
+        function update() {
+            character1.update();
+            character2.update();
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function moveCharacter(character, direction) {
+            switch (direction) {
+                case 'ArrowRight':
+                    character.move(10, 0);
+                    break;
+                case 'ArrowLeft':
+                    character.move(-10, 0);
+                    break;
+                case 'ArrowUp':
+                    character.move(0, -10);
+                    break;
+                case 'ArrowDown':
+                    character.move(0, 10);
+                    break;
+                case 'd':
+                    character.move(10, 0);
+                    break;
+                case 'a':
+                    character.move(-10, 0);
+                    break;
+                case 'w':
+                    character.move(0, -10);
+                    break;
+                case 's':
+                    character.move(0, 10);
+                    break;
+            }
+        }
+
+        function handleKeyDown(event) {
+            const key = event.key;
+            moveCharacter(activeCharacter, key);
+        }
+
+        function handleButtonClick(event) {
+            const key = event.target.dataset.key;
+            moveCharacter(activeCharacter, key);
+        }
+
+        function handleTouchStart(event) {
+            const touchX = event.touches[0].clientX;
+            const touchY = event.touches[0].clientY;
+
+            if (isTouchingCharacter(character1, touchX, touchY)) {
+                activeCharacter = character1;
+            } else if (isTouchingCharacter(character2, touchX, touchY)) {
+                activeCharacter = character2;
+            }
+
+            activeCharacter.isRunning = true;
+        }
+
+        function handleTouchMove(event) {
+            if (activeCharacter.isRunning) {
+                const touchX = event.touches[0].clientX;
+                const touchY = event.touches[0].clientY;
+
+                activeCharacter.x = touchX;
+                activeCharacter.y = touchY;
+            }
+        }
+
+        function handleTouchEnd(event) {
+            activeCharacter.isRunning = false;
+        }
+
+        function isTouchingCharacter(character, x, y) {
+            const dx = character.x - x;
+            const dy = character.y - y;
+            return Math.sqrt(dx * dx + dy * dy) < character.width / 2;
+        }
+
+        function handleScreenTap(event) {
+            if (!activeCharacter.isRunning) {
+                activeCharacter.jump();
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+        document.querySelectorAll('.controls button').forEach(button => {
+            button.addEventListener('click', handleButtonClick);
+});
+
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
+canvas.addEventListener('touchend', handleTouchEnd);
+canvas.addEventListener('click', handleScreenTap);
+
+update();
+</script> 
+</body> 
+</html>

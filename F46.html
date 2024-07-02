@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autumn | Lead Edge Ash Tree Reflex</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    background-color: white;
+  }
+  .container {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .input-group {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    border: 2px solid deepskyblue;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .input-group:nth-child(even) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    border-left: none;
+  }
+  .input-group:nth-child(odd) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    /*
+    border-right: none;
+    */
+  }
+  
+  #googleSheetFrame {
+    width: 875px;
+    height: 1200px;
+    border: none;
+  }
+  .row {
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    --bs-gutter-x: 0;
+  }
+textarea#responseField {
+            width: 65%; /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
+            padding: 10px;
+            margin-top: 20px;
+            
+            border-radius: 5px;
+            background-color: whitesmoke;
+            resize: none; /* Prevents resizing */
+        }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="text-center mb-4">
+    <img src="https://static.wixstatic.com/media/2451db_4f17959671e243e780f959689a435b86~mv2.png" alt="Autumn" style="max-width: 70%; height:auto;">
+    <br>
+    <br>
+    <br>
+    <h2 style="color: black; font-weight: bold;">Autumn | Lead Edge Ash Tree Reflex</h2>
+    <br>
+  </div>
+
+  <!-- Input groups -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group">
+        <!-- Group 1 -->
+                <!-- inputs: F4,F5 results: F6,F7,F8,F9 -->
+        <form id="inputForm1" class="form-input" action="#" method="post">
+          <div class="mb-3">
+            <label for="input1" class="form-label">Cognition Input:</label>
+            <input type="number" class="form-control" id="input1">
+          </div>
+          <div class="mb-3">
+            <label for="input2" class="form-label">Attribute Input:</label>
+            <input type="number" class="form-control" id="input2">
+          </div>
+          <button type="button" class="btn btn-primary" id="submitForm1">Submit</button>
+        </form>
+
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      
+      <div class="input-group">
+      
+        <!-- Group 2 -->
+                        <!-- inputs: F13,F14 results: F15,F16,F17,F18 -->
+                <form id="inputForm2" class="form-input" action="#" method="post">
+                  <div class="mb-3">
+                    <label for="input3" class="form-label">Cognition Input:</label>
+                    <input type="number" class="form-control" id="input3">
+                  </div>
+                  <div class="mb-3">
+                    <label for="input4" class="form-label">Attribute Input:</label>
+                    <input type="number" class="form-control" id="input4">
+                  </div>
+                  <button type="button" class="btn btn-primary" id="submitForm2">Submit</button>
+                </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group">
+        <!-- Group 3 -->
+                                <!-- inputs: F22,F23 results: F24,F25,F26,F27 -->
+      <form id="inputForm3" class="form-input" action="#" method="post">
+                <div class="mb-3">
+                  <label for="input5" class="form-label">Tool Input:</label>
+                  <input type="number" class="form-control" id="input5">
+                </div>
+                <div class="mb-3">
+                  <label for="input6" class="form-label">Attribute Input:</label>
+                  <input type="number" class="form-control" id="input6">
+                </div>
+                <button type="button" class="btn btn-primary" id="submitForm3">Submit</button>
+              </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <!-- Group 4 -->
+                                <!-- inputs: F31,F32 results: F33,F34,F35,F36 -->
+          <form id="inputForm4" class="form-input" action="#" method="post">
+                  <div class="mb-3">
+                    <label for="input7" class="form-label">Tool Input:</label>
+                    <input type="number" class="form-control" id="input7">
+                  </div>
+                  <div class="mb-3">
+                    <label for="input8" class="form-label">Attribute Input:</label>
+                    <input type="number" class="form-control" id="input8">
+                  </div>
+                  <button type="button" class="btn btn-primary" id="submitForm4">Submit</button>
+                </form>
+      </div>
+    </div>
+  </div>
+<br>
+<br>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+
+
+
+
+
+
+
+<div class="container">
+    <h2>Autumn Ash Sculpt</h2>
+    <form id="userInputForm">
+        <label for="userInput">Enter your message:</label>
+        <input type="text" id="userInput" name="encodetoAutumn" placeholder="Type something...">
+        <button type="button" onclick="submitUserInput()" style="background-color: deepskyblue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Submit</button>
+    </form>
+    <textarea id="responseField" placeholder="Autumn : " rows="4" cols="50" disabled></textarea>
+</div>
+ <br>
+    <button type="button" onclick="downloadResponse()" style="background-color: deepskyblue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Download Ash Sculpt</button>
+
+
+
+
+
+
+
+
+
+<!--
+<form id="myForm">
+    <input type="text" name="encodetoAutumn" placeholder="Enter text here">
+    <input type="button" value="Submit" onclick="submitForm()" style="background-color: deepskyblue; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+</form>
+-->
+
+
+
+        
+        
+    <br>
+    <br>
+    <iframe id="googleSheetFrame" src="https://docs.google.com/spreadsheets/d/1JGum3AZL8gw8CFSsG5Ah-wGSenTWPgSk063FFEnTUNQ/edit?usp=drivesdk"></iframe>
+  <br> 
+  
+</div>
+
+<script>
+
+
+function submitUserInput() {
+    var userInput = document.getElementById('userInput').value;
+    var formData = new FormData();
+    formData.append('encodetoAutumn', userInput);
+
+    fetch('https://script.google.com/macros/s/AKfycbwaeerB10ld4TiKw-Mlz53BXBnzIuA-m1u4kjMwVGzohf2mP8xlEs4_9TrG4j2jSk8M/exec', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.text())
+    .then(text => {
+        document.getElementById('responseField').innerText = text; // Display Autumn's response
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function downloadResponse() {
+    var response = document.getElementById('responseField').value;
+    var blob = new Blob([response], {type: "text/plain"});
+    var anchor = document.createElement("a");
+    anchor.download = "Autumn.ash";
+    anchor.href = window.URL.createObjectURL(blob);
+    anchor.style.display = "none"; // Don't show the element
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+}
+
+
+
+
+          
+        
+
+
+
+
+/*
+  // Function to handle form submission with group parameter
+  // Function to handle form submission with group parameter
+function handleFormSubmit(formId, inputFields, group) {
+  $("#" + formId).click(function(e) {
+    e.preventDefault();
+    var formData = {
+      group: group // Include the group in the formData
+    };
+    inputFields.forEach(function(inputId) {
+      formData[inputId] = $("#" + inputId).val();
+    });
+
+    $.ajax({
+      type: 'POST',
+      url: 'https://script.google.com/macros/s/AKfycbx9jR6DEejEoi85FlpQSRXBjc-ypNgLjKQSlSxm8deK8b_ubplMkX1frWyFF0t06w-lBQ/exec', // Replace with your actual Apps Script URL
+      data: formData,
+      success: function(data) {
+        // Assuming the output will be in HTML format and can be directly inserted
+        $("#results").html(data);
+
+        // Clear the input fields after successful submission
+        inputFields.forEach(function(inputId) {
+          $("#" + inputId).val(''); // Clear each input field
+        });
+      },
+      error: function(xhr, status, error) {
+        $("#results").html("<p>Error fetching results. Please try again.</p>");
+        console.error("Error: " + status + " - " + error);
+      }
+    });
+  });
+}
+
+
+*/
+  $(document).ready(function() {
+    // Initialize form handlers with group parameter
+    handleFormSubmit('submitForm1', ['input1', 'input2'], '1'); // Group 1
+    handleFormSubmit('submitForm2', ['input3', 'input4'], '2'); // Group 2
+    handleFormSubmit('submitForm3', ['input5', 'input6'], '3'); // Group 3
+    handleFormSubmit('submitForm4', ['input7', 'input8'], '4'); // Group 4
+  });
+  
+  function submitForm() {
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+
+    fetch('https://script.google.com/macros/s/AKfycbwGm_NNIKu7rV0azfnGarR5BZL1KWW-jOGSBCRkT12mLFRFQinRUtHZ2EfutE3DqAqRhA/exec', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.text())
+    .then(data => alert(data)) // Show success message or handle as needed
+    .catch(error => console.error('Error:', error));
+}
+  
+  
+</script>
+</body>
+</html>

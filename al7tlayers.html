@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!https://static.wixstatic.com/media/2451db_495d06818ce249f2a30d331a4a819776~mv2.png>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skyboard Shop</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        .centered-div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            display: block;
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 300px;
+        }
+        .controls button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrapper">
+        <canvas id="gameCanvas" width="875" height="875"></canvas>
+        <div class="canvas-border"></div>
+    </div>
+    <div class="centered-div">
+        <h1>Skyboard Shop</h1>
+    </div>
+    <div class="controls">
+        <button id="up" data-key="ArrowUp">↑</button>
+        <button id="left" data-key="ArrowLeft">←</button>
+        <button id="down" data-key="ArrowDown">↓</button>
+        <button id="right" data-key="ArrowRight">→</button>
+        <button id="w" data-key="w">W</button>
+        <button id="a" data-key="a">A</button>
+        <button id="s" data-key="s">S</button>
+        <button id="d" data-key="d">D</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 875;
+        canvas.height = 875;
+
+        const backgroundImage = new Image();
+        backgroundImage.src = 'https://static.wixstatic.com/media/2451db_d725210b438c449c8e867769e9371103~mv2.png'; // Replace with actual URL
+
+        const foregroundObstacleImage = new Image();
+        foregroundObstacleImage.src = 'https://static.wixstatic.com/media/2451db_86ef24aabe934e98bbd6a1fc5c7cc447~mv2.png'; // Replace with actual URL
+
+        class Character {
+            constructor(x, y, width, height, imageUrl) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.image = new Image();
+                this.image.src = imageUrl;
+                this.isSelected = false;
+            }
+
+            draw() {
+                ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            }
+
+            move(dx, dy) {
+                this.x += dx;
+                this.y += dy;
+            }
+
+            jump() {
+                const jumpHeight = 40; // Increased jump height
+                const jumpDuration = 500; // Duration in milliseconds
+
+                const originalY = this.y;
+                const jumpUp = () => {
+                    this.y -= jumpHeight;
+                    setTimeout(jumpDown, jumpDuration / 2);
+                };
+
+                const jumpDown = () => {
+                    this.y = originalY;
+                };
+
+                this.move(20, 0); // Move forward while in the air
+                jumpUp();
+            }
+        }
+
+        class Cat {
+            constructor(x, y, width, height, imageUrl) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.image = new Image();
+                this.image.src = imageUrl;
+                this.speed = Math.random() * 2 + 1;
+                this.direction = 1; // 1 for right, -1 for left
+            }
+
+            draw() {
+                ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            }
+
+            update() {
+                this.x += this.speed * this.direction;
+                if (this.x > canvas.width || this.x < 0) {
+                    this.direction *= -1;
+                }
+                this.draw();
+            }
+        }
+
+        class MovingObstacle {
+            constructor(x, y, width, height, imageUrl) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.image = new Image();
+                this.image.src = imageUrl;
+                this.speed = Math.random() * 1.5 + 0.5; // Random speed between 0.5 and 2
+                this.directionX = Math.random() > 0.5 ? 1 : -1; // Random initial direction
+                this.directionY = Math.random() > 0.5 ? 1 : -1; // Random initial direction
+            }
+
+            draw() {
+                ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            }
+
+            update() {
+                this.x += this.speed * this.directionX;
+                this.y += this.speed * this.directionY;
+
+                // Bounce off walls
+                if (this.x <= 0 || this.x >= canvas.width) this.directionX *= -1;
+                if (this.y <= canvas.height * 0.7 || this.y >= canvas.height) this.directionY *= -1;
+
+                this.draw();
+            }
+        }
+
+        const character1 = new Character(600, canvas.height - 350, 500, 550, 'https://static.wixstatic.com/media/2451db_495d06818ce249f2a30d331a4a819776~mv2.png'); // Replace with actual URL
+        const character2 = new Character(700, canvas.height - 150, 120, 120, 'https://static.wixstatic.com/media/2451db_452445760bd24a10a1c0e54da1b089ea~mv2.png'); // Replace with actual URL
+        let activeCharacter = character1;
+
+        const cat = new Cat(canvas.width / 2, canvas.height * 0.7, 100, 100, 'https://static.wixstatic.com/media/2451db_92e680332d8741be8a2853c6029f94bf~mv2.png'); // Replace with actual URL
+
+        const obstacles = [
+            { x: 300, y: canvas.height - 200, width: 50, height: 50, imageUrl: 'https://static.wixstatic.com/media/2451db_2d1c8651c49f4db49e1e82c955f03555~mv2.png' }, // Replace with actual URL
+            new MovingObstacle(600, canvas.height - 600, 50, 100, 'https://static.wixstatic.com/media/2451db_4edaaeab374545f0aeacb80fc006c4b0~mv2.png') // Animated Hornet
+        ];
+
+        function drawBackground() {
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                if (obstacle instanceof MovingObstacle) {
+                    obstacle.update();
+                } else {
+                    const obstacleImage = new Image();
+                    obstacleImage.src = obstacle.imageUrl;
+                    ctx.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                }
+            });
+        }
+
+        function drawForegroundObstacle() {
+            ctx.drawImage(foregroundObstacleImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawObstacles();
+            character1.draw();
+            character2.draw();
+            cat.update();
+            drawForegroundObstacle();
+        }
+
+        function update() {
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function moveCharacter(character, direction) {
+            switch (direction) {
+                case 'ArrowRight':
+                    character.move(10, 0);
+                    break;
+                case 'ArrowLeft':
+                    character.move(-10, 0);
+                    break;
+                case 'ArrowUp':
+                    character.move(0, -10);
+                    break;
+                case 'ArrowDown':
+                    character.move(0, 10);
+                    break;
+                case 'd':
+                    character.move(10, 0);
+                    break;
+                case 'a':
+                    character.move(-10, 0);
+                    break;
+                case 'w':
+                    character.move(0, -10);
+                    break;
+                case 's':
+                    character.move(0, 10);
+                    break;
+            }
+        }
+
+        function handleKeyDown(event) {
+            const key = event.key;
+            moveCharacter(activeCharacter, key);
+        }
+
+        function handleButtonClick(event) {
+            const key = event.target.dataset.key;
+            moveCharacter(activeCharacter, key);
+        }
+
+        function handleTouchStart(event) {
+            const touchX = event.touches[0].clientX;
+            const touchY = event.touches[0].clientY;
+
+            if (isTouchingCharacter(character1, touchX, touchY)) {
+                activeCharacter = character1;
+            } else if (isTouchingCharacter(character2, touchX, touchY)) {
+                activeCharacter = character2;
+            }
+        }
+
+        function handleTouchMove(event) {
+            const touchX = event.touches[0].clientX;
+            const touchY = event.touches[0].clientY;
+
+            activeCharacter.x = touchX;
+            activeCharacter.y = touchY;
+        }
+
+        function handleTouchEnd(event) {
+            // Stop any ongoing actions if necessary
+        }
+
+        function isTouchingCharacter(character, x, y) {
+            const dx = character.x - x;
+            const dy = character.y - y;
+            return Math.sqrt(dx * dx + dy * dy) < character.width / 2;
+}
+
+function handleScreenTap(event) {
+  if (!activeCharacter.isRunning) {
+    activeCharacter.jump();
+  }
+}
+
+window.addEventListener('keydown', handleKeyDown);
+document.querySelectorAll('.controls button').forEach(button => {
+  button.addEventListener('click', handleButtonClick);
+});
+
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
+canvas.addEventListener('touchend', handleTouchEnd);
+canvas.addEventListener('click', handleScreenTap);
+
+update();
+</script> 
+</body> 
+</html>

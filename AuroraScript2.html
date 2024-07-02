@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuroraScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            color: white;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .menu button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+        }
+        .menu button:hover {
+            background: #0056b3;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            background: #fff;
+            color: #000;
+        }
+        .output {
+            margin-top: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+            color: #000;
+            overflow-wrap: break-word;
+        }
+        h1, h2 {
+            color: #fff;
+        }
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .image-container img {
+            margin: 10px;
+        }
+        .code-block {
+            background-color: #282c34;
+            color: #61dafb;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="https://raw.githubusercontent.com/DART-Edge-AI/Autumn/main/AuroraScript.png" alt="AuroraScript Logo" style="max-width: 30%; height:auto;">
+    <h2>AuroraScript</h2>
+    <div class="menu">
+        <button onclick="showContent('alphabet')">Alphabet</button>
+        <button onclick="showContent('syntax')">Syntax</button>
+        <button onclick="showContent('example')">Example</button>
+        <button onclick="showContent('editor')">Editor</button>
+        <button onclick="showContent('imageGenerator')"> Future | A Surgical Rock Cut</button>
+    </div>
+    <div id="alphabet" class="content">
+        <h2>Alphabet</h2>
+        <pre id="alphabetList" class="code-block"></pre>
+    </div>
+    <div id="syntax" class="content">
+        <h2>Syntax</h2>
+        <pre id="syntaxList" class="code-block"></pre>
+    </div>
+    <div id="example" class="content">
+        <h2>Example Script</h2>
+        <pre id="exampleScript" class="code-block"></pre>
+    </div>
+    <div id="editor" class="content">
+        <h2>Editor</h2>
+        <textarea id="codeEditor" placeholder="Write your custom script here..."></textarea>
+        <button onclick="runScript()">Run Script</button>
+        <button onclick="saveScript()">Save Script</button>
+        <button onclick="exportSnowdenAsh()">Export Snowden Ash</button>
+        <div class="output" id="scriptOutput"></div>
+        <canvas id="canvas" style="border:1px solid #000;"></canvas>
+    </div>
+    <div id="imageGenerator" class="content">
+        <h2>Image Generator</h2>
+        <input type="file" id="imageInput1" accept="image/*">
+        <input type="file" id="imageInput2" accept="image/*">
+        <button onclick="generateImage()">Generate Image</button>
+        <button onclick="saveAsJPG()">Save as JPG</button>
+        <div class="image-container" id="imageContainer"></div>
+    </div>
+</div>
+
+<script>
+    // Define the master variables
+    let alphabet = {
+        a: '⍺', b: 'β', c: 'γ', d: 'δ', e: 'ε', f: 'ζ', g: 'η', h: 'θ', i: 'ι', j: 'κ',
+        k: 'λ', l: 'μ', m: 'ν', n: 'ξ', o: 'ο', p: 'π', q: 'ρ', r: 'σ', s: 'τ', t: 'υ',
+        u: 'φ', v: 'χ', w: 'ψ', x: 'ω', y: 'ϒ', z: 'ζ'
+    };
+
+    let syntax = {
+        var: '∇', func: 'λ', if: '⊗', else: '⊕', loop: '∞', return: '↩', assignment: '≔',
+        addition: '⊕', subtraction: '⊖', multiplication: '⊗', division: '÷', equal: '≡',
+        not_equal: '≠', greater: '>', less: '<', and: '∧', or: '∨', not: '¬'
+    };
+
+    let exampleScript = `
+∇ x ≔ 10
+∇ y ≔ 20
+∇ sum ≔ λ(x, y) {
+  return x ⊕ y
+}
+⊗ (x > y) {
+  return sum(x, y)
+} ⊕ {
+  return x ⊖ y
+}
+∇ imageData1 ≔ "data:image/png;base64,iVBOR..."
+`;
+
+    let influencers = [];
+
+    function showContent(contentId) {
+        const contents = document.querySelectorAll('.content');
+        contents.forEach(content => content.classList.remove('active'));
+        document.getElementById(contentId).classList.add('active');
+    }
+
+    function runScript() {
+        const code = document.getElementById('codeEditor').value;
+        document.getElementById('scriptOutput').innerText = `Running...\n${code}`;
+        updateInfluencers(code);
+    }
+
+    function saveScript() {
+        const code = document.getElementById('codeEditor').value;
+        influencers.push({ type: 'script', data: code });
+        alert('Script saved and influencer updated.');
+    }
+
+    function exportSnowdenAsh() {
+        const imageContainer = document.getElementById('imageContainer');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let xOffset = 0;
+        imageContainer.querySelectorAll('img').forEach((img, index) => {
+            const image = new Image();
+            image.src = img.src;
+            image.onload = () => {
+                ctx.drawImage(image, xOffset, 0, 100, 100);
+                xOffset += 100;
+                const dataURL = canvas.toDataURL('image/jpeg');
+                document.getElementById('scriptOutput').innerText += `\nExported Image: ${dataURL}`;
+            };
+        });
+    }
+
+    function generateImage() {
+        const imageInput1 = document.getElementById('imageInput1').files[0];
+        const imageInput2 = document.getElementById('imageInput2').files[0];
+
+        if (imageInput1 && imageInput2) {
+            const reader1 = new FileReader();
+            const reader2 = new FileReader();
+
+            reader1.onload = function (e) {
+                const img1 = document.createElement('img');
+                img1.src = e.target.result;
+                img1.classList.add('thumbnail');
+                document.getElementById('imageContainer').appendChild(img1);
+            };
+
+            reader2.onload = function (e) {
+                const img2 = document.createElement('img');
+                img2.src = e.target.result;
+                img2.classList.add('thumbnail');
+                document.getElementById('imageContainer').appendChild(img2);
+            };
+
+            reader1.readAsDataURL(imageInput1);
+            reader2.readAsDataURL(imageInput2);
+
+            influencers.push({ type: 'image', data: [imageInput1.name, imageInput2.name] });
+        } else {
+            alert('Please select two images.');
+        }
+    }
+
+    function saveAsJPG() {
+        const canvas = document.getElementById('canvas');
+        const dataURL = canvas.toDataURL('image/jpeg');
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'generated_image.jpg';
+        link.click();
+    }
+
+    function updateInfluencers(code) {
+        exampleScript += `\n${code}`;
+        updateExampleScript();
+    }
+
+    function updateExampleScript() {
+        let updatedScript = exampleScript;
+
+        // Apply all script influencers to the example script
+        influencers.forEach(influencer => {if (influencer.type === 'script') {
+                updatedScript += `\n${influencer.data}`;
+            }
+        });
+
+        document.getElementById('exampleScript').innerText = updatedScript;
+    }
+
+    // Initial setup to display the alphabet and syntax
+    document.getElementById('alphabetList').innerText = JSON.stringify(alphabet, null, 2);
+    document.getElementById('syntaxList').innerText = JSON.stringify(syntax, null, 2);
+    document.getElementById('exampleScript').innerText = exampleScript;
+
+    // Function to truncate long base64 strings
+    function truncateBase64(str) {
+        if (str.length > 100) {
+            return str.substring(0, 50) + '...' + str.substring(str.length - 50, str.length);
+        }
+        return str;
+    }
+
+    // Event listener for truncating long base64 strings in output
+    document.getElementById('scriptOutput').addEventListener('DOMNodeInserted', (event) => {
+        const output = event.target.innerText;
+        event.target.innerText = output.split(' ').map(word => {
+            return word.startsWith('data:image') ? truncateBase64(word) : word;
+        }).join(' ');
+    });
+
+    // Ensure Select All only selects the text in the code block
+    document.addEventListener('keydown', (event) => {
+        if (event.ctrlKey && event.key === 'a') {
+            const activeContent = document.querySelector('.content.active pre');
+            if (activeContent) {
+                event.preventDefault();
+                const range = document.createRange();
+                range.selectNodeContents(activeContent);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DART Skyboard</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            background-color: transparent;
+        }
+        .centered-div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+        }
+        canvas {
+            display: block;
+            position: relative;
+            z-index: 2; /* Ensure canvas is above other content */
+            background-color: black; /* Ensures a black background for the canvas */
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 350px;
+            z-index: 3; /* Ensure controls are above canvas */
+            margin-top: 20px; /* Add margin to position controls below the canvas */
+        }
+        .controls button {
+            background: linear-gradient(to top left, #1a1a4d, #7373a6);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 18px;
+            position: relative;
+        }
+        .speaker-button {
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            z-index: 3; /* Ensure speaker button is above canvas */
+        }
+        .speaker-button img {
+            width: 100px;
+            height: 100px;
+        }
+        .canvas-wrapper {
+            position: relative;
+            z-index: 1; /* Base layer */
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrapper">
+        <canvas id="gameCanvas" width="875" height="875"></canvas>
+        <div class="canvas-border"></div>
+    </div>
+    <div class="centered-div">
+        <h1>DART Skyboard</h1>
+    </div>
+    
+    <div>
+        <!-- Button to control audio -->
+        <button id="mute" onClick="playPause()" class="speaker-button">
+            <img id="speaker-icon" src="https://static.wixstatic.com/media/2451db_f3535dbdc10b4117a28832eeef15fa71~mv2.png" alt="Play">
+            <audio id="backgroundMusic"
+                src="https://static.wixstatic.com/mp3/2451db_3d232605a51744daaf4e8f0e6f8fb0a0.mp3"
+                autoplay
+                loop
+            ></audio> 
+        </button>
+
+        <script>
+            const audioElement = document.getElementById('backgroundMusic');
+            const speakerIcon = document.getElementById('speaker-icon');
+
+            function playPause() {
+                if (audioElement.paused) {
+                    audioElement.play();
+                    speakerIcon.src = "https://static.wixstatic.com/media/2451db_18a14b6ce43e4412bbe3edb353b6f399~mv2.png"; // Switch to pause icon
+                    speakerIcon.alt = "Pause";
+                } else {
+                    audioElement.pause();
+                    speakerIcon.src = "https://static.wixstatic.com/media/2451db_f3535dbdc10b4117a28832eeef15fa71~mv2.png"; // Switch to play icon
+                    speakerIcon.alt = "Play";
+                }
+            }
+        </script>   
+    </div>       
+
+    <br>
+    
+    <div class="controls">
+        <button id="up" data-key="ArrowUp">↑</button>
+        <button id="left" data-key="ArrowLeft">←</button>
+        <button id="down" data-key="ArrowDown">↓</button>
+        <button id="right" data-key="ArrowRight">→</button>
+        <button id="w" data-key="w">W</button>
+        <button id="a" data-key="a">A</button>
+        <button id="s" data-key="s">S</button>
+        <button id="d" data-key="d">D</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 875;
+        canvas.height = 875;
+
+        const backgroundImage = new Image();
+        backgroundImage.src = 'https://static.wixstatic.com/media/2451db_51c61e5266c04c7791176ad3618069fd~mv2.png'; // Replace with actual URL
+
+        const layer0Image = new Image();
+        layer0Image.src = 'https://static.wixstatic.com/media/2451db_6154ce458fed4d7dac2a064ceb0af87c~mv2.png'; // Replace with actual URL
+
+        const layer1Image = new Image();
+        layer1Image.src = 'https://static.wixstatic.com/media/2451db_f53cb2ee9c374ee68753f72446df60a5~mv2.png'; // Replace with actual URL
+
+        const layer2Image = new Image();
+        layer2Image.src = 'https://static.wixstatic.com/media/2451db_d5e2801cb4da4c929882776f2256d682~mv2.png'; // Replace with actual URL
+
+        const foregroundObstacleImage = new Image();
+        foregroundObstacleImage.src = 'https://static.wixstatic.com/media/2451db_75b1f6acf5dc4f87b10e6967c23d4ac7~mv2.png'; // Replace with actual URL
+
+        class Character {
+            constructor(x, y, width, height, imageUrl) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.image = new Image();
+                this.image.src = imageUrl;
+                this.isSelected = false;
+            }
+
+            draw() {
+                ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            }
+
+            move(dx, dy) {
+                this.x += dx;
+                this.y += dy;
+            }
+
+            jump() {
+                const jumpHeight = 40; // Increased jump height
+                const jumpDuration = 500; // Duration in milliseconds
+
+                const originalY = this.y;
+                const jumpUp = () => {
+                    this.y -= jumpHeight;
+                    setTimeout(jumpDown, jumpDuration / 2);
+                };
+
+                const jumpDown = () => {
+                    this.y = originalY;
+                };
+
+                this.move(20, 0); // Move forward while in the air
+                jumpUp();
+            }
+        }
+
+        class MovingObstacle {
+            constructor(x, y, width, height, imageUrl) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.image = new Image();
+                this.image.src = imageUrl;
+                this.speed = Math.random() * 1.5 + 0.5; // Random speed between 0.5 and 2
+                this.directionX = Math.random() > 0.5 ? 1 : -1; // Random initial direction
+                this.directionY = Math.random() > 0.5 ? 1 : -1; // Random initial direction
+            }
+
+            draw() {
+                ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+            }
+
+            update() {
+                this.x += this.speed * this.directionX;
+                this.y += this.speed * this.directionY;
+
+                // Bounce off walls
+                if (this.x <= 0 || this.x >= canvas.width) this.directionX *= -1;
+                if (this.y <= canvas.height * 0.7 || this.y >= canvas.height) this.directionY *= -1;
+
+                this.draw();
+            }
+        }
+
+        const character1 = new Character(700, canvas.height - 200, 300, 300, 'https://static.wixstatic.com/media/2451db_70513af1140c4d5b9f99e8a1999a787b~mv2.png'); // Replace with actual URL
+        const character2 = new Character(400, canvas.height - 100, 170, 170, 'https://static.wixstatic.com/media/2451db_452445760bd24a10a1c0e54da1b089ea~mv2.png'); // Replace with actual URL
+        const character3 = new Character(250, canvas.height - 350, 600, 600, 'https://static.wixstatic.com/media/2451db_495d06818ce249f2a30d331a4a819776~mv2.png'); // Replace with actual URL
+        const character4 = new Character(150, canvas.height * 0.4, 250, 250, 'https://static.wixstatic.com/media/2451db_a36b753199a14c90a46f06f5129a94d3~mv2.png'); // Replace with actual URL
+        let activeCharacter = character1;
+
+const cat = new MovingObstacle(canvas.width / 2, canvas.height * 0.7, 150, 150, 'https://static.wixstatic.com/media/2451db_92e680332d8741be8a2853c6029f94bf~mv2.png'); // Replace with actual URL
+
+const obstacles = [
+  { x: 70, y: canvas.height - 430, width: 50, height: 50, imageUrl: 'https://static.wixstatic.com/media/2451db_2d1c8651c49f4db49e1e82c955f03555~mv2.png' }, // Replace with actual URL
+            new MovingObstacle(600, canvas.height - 600, 50, 100, 'https://static.wixstatic.com/media/2451db_4edaaeab374545f0aeacb80fc006c4b0~mv2.png') // Animated Hornet
+        ];
+
+function drawBackground() {
+  // Draw a solid black background on the canvas
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+}
+
+function drawLayer0() {
+  ctx.drawImage(layer0Image, 0, 0, canvas.width, canvas.height);
+}
+
+function drawLayer1() {
+  ctx.drawImage(layer1Image, 0, 0, canvas.width, canvas.height);
+}
+
+function drawLayer2() {
+  ctx.drawImage(layer2Image, 0, 0, canvas.width, canvas.height);
+}
+
+function drawObstacles() {
+  obstacles.forEach(obstacle => {
+    if (obstacle instanceof MovingObstacle) {
+      obstacle.update();
+    } else {
+      const obstacleImage = new Image();
+      obstacleImage.src = obstacle.imageUrl;
+      ctx.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+    }
+  });
+}
+
+function drawForegroundObstacle() {
+  ctx.drawImage(foregroundObstacleImage, 0, 0, canvas.width, canvas.height);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+  character4.draw(); // Character 4 behind layer0
+  drawLayer0();
+  drawLayer1();
+  drawObstacles();
+  cat.update(); // Cat is now a moving obstacle like the hornet
+
+  character1.draw(); // Character 1 behind top two layers
+  character2.draw(); // Character 2 behind top two layers
+  character3.draw(); // Character 3 behind top two layers
+  drawLayer2();
+
+  drawForegroundObstacle();
+}
+
+function update() {
+  draw();
+  requestAnimationFrame(update);
+}
+
+function moveCharacter(character, direction) {
+  switch (direction) {
+    case 'ArrowRight':
+      character.move(10, 0);
+      break;
+    case 'ArrowLeft':
+      character.move(-10, 0);
+      break;
+    case 'ArrowUp':
+      character.move(0, -10);
+      break;
+    case 'ArrowDown':
+      character.move(0, 10);
+      break;
+    case 'd':
+      character.move(10, 0);
+      break;
+    case 'a':
+      character.move(-10, 0);
+      break;
+    case 'w':
+      character.move(0, -10);
+      break;
+    case 's':
+      character.move(0, 10);
+      break;
+  }
+
+  // Constraints for character4
+  if (character === character4) {
+    const minY = canvas.height * 0.2;
+    const maxY = canvas.height * 0.6;
+    if (character.y < minY) character.y = minY;
+    if (character.y > maxY) character.y = maxY;
+  }
+}
+
+function handleKeyDown(event) {
+  const key = event.key;
+  moveCharacter(activeCharacter, key);
+}
+
+function handleButtonClick(event) {
+  const key = event.target.dataset.key;
+  moveCharacter(activeCharacter, key);
+}
+
+function handleTouchStart(event) {
+  const touchX = event.touches[0].clientX;
+  const touchY = event.touches[0].clientY;
+
+  if (isTouchingCharacter(character1, touchX, touchY)) {
+    activeCharacter = character1;
+  } else if (isTouchingCharacter(character2, touchX, touchY)) {
+    activeCharacter = character2;
+  } else if (isTouchingCharacter(character3, touchX, touchY)) {
+    activeCharacter = character3;
+  } else if (isTouchingCharacter(character4, touchX, touchY)) {
+    activeCharacter = character4;
+  }
+}
+
+function handleTouchMove(event) {
+  const touchX = event.touches[0].clientX;
+  const touchY = event.touches[0].clientY;
+
+  activeCharacter.x = touchX;
+  activeCharacter.y = touchY;
+
+  // Constraints for character4
+  if (activeCharacter === character4) {
+    const minY = canvas.height * 0.2;
+    const maxY = canvas.height * 0.6;
+    if (activeCharacter.y < minY) activeCharacter.y = minY;
+    if (activeCharacter.y > maxY) activeCharacter.y = maxY;
+  }
+}
+
+function handleTouchEnd(event) {
+  // Stop any ongoing actions if necessary
+}
+
+function isTouchingCharacter(character, x, y) {
+  const dx = character.x - x;
+  const dy = character.y - y;
+  return Math.sqrt(dx * dx + dy * dy) < character.width / 2;
+}
+
+function handleScreenTap(event) {
+  if (!activeCharacter.isRunning) {
+    activeCharacter.jump();
+  }
+}
+
+window.addEventListener('keydown', handleKeyDown);
+document.querySelectorAll('.controls button').forEach(button => {
+  button.addEventListener('click', handleButtonClick);
+});
+
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
+canvas.addEventListener('touchend', handleTouchEnd);
+canvas.addEventListener('click', handleScreenTap);
+
+update();
+</script> 
+</body>
+</html>

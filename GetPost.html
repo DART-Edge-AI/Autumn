@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spreadsheet Status Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #statusForm {
+            max-width: 300px;
+            margin: auto;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input[type=checkbox] {
+            margin-bottom: 20px;
+        }
+
+        input[type=button] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: deepskyblue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            transition: background-color 0.3s ease;
+        }
+
+        input[type=button]:hover {
+            background-color: #00bfff;
+        }
+    </style>
+</head>
+<body>
+    <form id="statusForm">
+        <label>
+            <input type="checkbox" id="cellStatus" name="cellStatus"> Cell Status
+        </label><br>
+        <input type="hidden" id="action" name="action" value="update">
+        <input type="button" value="Update Status" onclick="updateStatus()">
+        <input type="button" value="Get Status" onclick="getStatus()">
+    </form>
+
+    <script>
+        function updateStatus() {
+            var status = document.getElementById('cellStatus').checked; // true or false
+            var range = 'E221'; // Adjust based on your requirements
+
+            // Send POST request to Google Apps Script
+            fetch('YOUR_WEB_APP_URL', {
+                method: 'POST',
+                mode: 'no-cors', // Depending on Apps Script settings
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=update&range=${range}&value=${status}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Update Success:', data);
+                alert(`Update successful. Current status: All True: ${data.statuses.allTrue}, All False: ${data.statuses.allFalse}`);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function getStatus() {
+            // Implement the functionality to get the status
+            // This function would likely make a GET or POST request similar to updateStatus but for retrieving data only.
+        }
+    </script>
+</body>
+</html>

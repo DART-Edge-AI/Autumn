@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuroraScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      /* background-color: #f0f0f0; Commenting out to make background transparent */
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+     /*  background: #fff; Removing the white background */
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+      color: white;
+    }
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .menu button {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      border-radius: 5px;
+    }
+    .menu button:hover {
+      background: #0056b3;
+    }
+    .content {
+      display: none;
+    }
+    .content.active {
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-top: 20px;
+      background: #fff; /* Keeping the editor background white */
+      color: #000; /* Black text */
+    }
+    .output {
+      margin-top: 20px;
+      background: #fff; /* Keeping the output background white */
+      padding: 10px;
+      border-radius: 5px;
+      text-align: left;
+      color: #000; /* Black text */
+    }
+    h1, h2 {
+      color: #fff; /* Changing title and header text color to white */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/DART-Edge-AI/Autumn/main/AuroraScript.png" alt="AuroraScript Logo" style="max-width: 40%; height:auto;">
+    <h1>AuroraScript</h1>
+    <div class="menu">
+      <button onclick="showContent('alphabet')">Alphabet</button>
+      <button onclick="showContent('syntax')">Syntax</button>
+      <button onclick="showContent('example')">Example</button>
+      <button onclick="showContent('editor')">Editor</button>
+    </div>
+    <div id="alphabet" class="content">
+      <h2>Alphabet</h2>
+      <pre id="alphabetList"></pre>
+    </div>
+    <div id="syntax" class="content">
+      <h2>Syntax</h2>
+      <pre id="syntaxList"></pre>
+    </div>
+    <div id="example" class="content">
+      <h2>Example Script</h2>
+      <pre id="exampleScript"></pre>
+    </div>
+    <div id="editor" class="content">
+      <h2>Editor</h2>
+      <textarea id="codeEditor" placeholder="Write your custom script here..."></textarea>
+      <button onclick="runScript()">Run Script</button>
+      <button onclick="saveScript()">Save Script</button>
+      <div class="output" id="scriptOutput"></div>
+    </div>
+  </div>
+
+  <script>
+    const alphabet = {
+      a: '⍺',
+      b: 'β',
+      c: 'γ',
+      d: 'δ',
+      e: 'ε',
+      f: 'ζ',
+      g: 'η',
+      h: 'θ',
+      i: 'ι',
+      j: 'κ',
+      k: 'λ',
+      l: 'μ',
+      m: 'ν',
+      n: 'ξ',
+      o: 'ο',
+      p: 'π',
+      q: 'ρ',
+      r: 'σ',
+      s: 'τ',
+      t: 'υ',
+      u: 'φ',
+      v: 'χ',
+      w: 'ψ',
+      x: 'ω',
+      y: 'ϒ',
+      z: 'ζ'
+    };
+
+    const syntax = {
+      var: '∇',
+      func: 'λ',
+      if: '⊗',
+      else: '⊕',
+      loop: '∞',
+      return: '↩',
+      assignment: '≔',
+      addition: '⊕',
+      subtraction: '⊖',
+      multiplication: '⊗',
+      division: '÷',
+      equal: '≡',
+      not_equal: '≠',
+      greater: '>',
+      less: '<',
+      and: '∧',
+      or: '∨',
+      not: '¬'
+    };
+
+    const exampleScript = `
+∇ x ≔ 10
+∇ y ≔ 20
+∇ sum ≔ λ(x, y) {
+  return x ⊕ y
+}
+⊗ (x > y) {
+  return sum(x, y)
+} ⊕ {
+  return x ⊖ y
+}`;
+
+    function showContent(id) {
+      document.querySelectorAll('.content').forEach(div => {
+        div.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    function displayList(list, elementId) {
+      const listElement = document.getElementById(elementId);
+      let content = '';
+      for (const [key, value] of Object.entries(list)) {
+        content += `${key}: ${value}\n`;
+      }
+      listElement.textContent = content;
+    }
+
+    function runScript() {
+      const code = document.getElementById('codeEditor').value;
+      document.getElementById('scriptOutput').textContent = 'Running...\n' + code;
+    }
+
+    function saveScript() {
+      const code = document.getElementById('codeEditor').value;
+      const blob = new Blob([code], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'AuroraScript.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      displayList(alphabet, 'alphabetList');
+      displayList(syntax, 'syntaxList');
+      document.getElementById('exampleScript').textContent = exampleScript;
+    });
+  </script>
+</body>
+</html>
